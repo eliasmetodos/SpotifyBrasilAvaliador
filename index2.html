@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Avaliação Spotify</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #121212;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      width: 95%;
+      max-width: 480px;
+      background: #1e1e1e;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 0 24px rgba(0, 0, 0, 0.7);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #000;
+      padding: 12px;
+      border-radius: 12px;
+    }
+
+    .header img {
+      height: 32px;
+    }
+
+    .money {
+      background: #2a2a2a;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      color: #1db954;
+    }
+
+    .music-card {
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      border-radius: 16px;
+      margin: 15px 0;
+      position: relative;
+      color: white;
+      padding: 20px;
+      height: 230px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+    }
+
+    .music-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.1));
+      border-radius: 16px;
+    }
+
+    .music-card * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .audio-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .control-btn {
+      background: #1db954;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease;
+    }
+
+    .control-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.control-btn img {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1);
+}
+
+.control-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+
+    audio {
+      width: 100%;
+      border-radius: 25px;
+    }
+
+    .question {
+      margin: 20px 0 10px;
+    }
+
+    .slider-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: #1db954;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 16px;
+      background: #2b2b2b;
+      border: 2px solid transparent;
+      border-radius: 10px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 100px;
+      text-align: center;
+    }
+
+    .btn:hover {
+      background: #333;
+      border-color: #1db954;
+    }
+
+    .btn.active {
+      background: #1db954;
+      color: black;
+      font-weight: bold;
+      box-shadow: 0 0 10px #1db954;
+    }
+
+    .submit-btn {
+      background: linear-gradient(90deg, #1db954, #1ed760);
+      padding: 15px;
+      width: 100%;
+      border-radius: 30px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 25px;
+      border: none;
+      color: black;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      transition: transform 0.2s;
+    }
+
+    .submit-btn:hover {
+      transform: scale(1.03);
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1.1);
+      background: radial-gradient(circle at center, #1db954, #0f3);
+      padding: 50px 30px;
+      border-radius: 20px;
+      text-align: center;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      z-index: 1000;
+      width: 320px;
+      box-shadow: 0 0 20px #1db954, 0 0 40px #0f3;
+      animation: popupFade 0.5s ease-out;
+    }
+
+    @keyframes popupFade {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.1);
+      }
+    }
+
+    .popup img {
+      width: 180px;
+      height: 180px;
+      animation: bounce 1s infinite;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 0 10px white);
+    }
+
+    #reward-amount {
+      font-size: 36px;
+      background: #ffffff;
+      color: #1db954;
+      padding: 12px 24px;
+      border-radius: 50px;
+      display: inline-block;
+      box-shadow: 0 0 10px #fff;
+      margin-top: 15px;
+      transition: transform 0.3s ease;
+    }
+
+    #reward-amount:hover {
+      transform: scale(1.05);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="spotify-logo.png" alt="Spotify">
+      <div class="money" id="user-balance">R$ 100.00</div>
+    </div>
+
+    <p style="margin-top: 10px;">Avalie as músicas abaixo e <span style="color: #1db954;">ganhe por isso</span></p>
+
+    <div class="music-card" id="music-card">
+      <p><strong id="song-title">Música 1</strong></p>
+      <p>Prévia</p>
+      <div class="audio-controls">
+        <button class="control-btn" onclick="prevSong()">
+          <img src="imagens/icons/prev.svg" alt="Anterior">
+        </button>
+        <audio id="audio-player" controls>
+          <source src="song1.mp3" type="audio/mp3">
+        </audio>
+        <button class="control-btn" onclick="nextSong()">
+          <img src="imagens/icons/next.svg" alt="Próxima">
+        </button>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>De bom a ruim, qual nota você daria para as músicas?</p>
+      <div class="slider-container">
+        <span>Ruim</span>
+        <input type="range" min="1" max="10" value="5" id="rating">
+        <span>Bom</span>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>Você recomendaria esse cantor?</p>
+      <div class="buttons">
+        <button class="btn" id="no">👎 Não</button>
+        <button class="btn" id="yes">👍 Sim</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>Qual faixa etária você acha que mais escuta esse cantor?</p>
+      <div class="buttons">
+        <button class="btn" id="under18">-18 anos</button>
+        <button class="btn" id="over18">+18 anos</button>
+      </div>
+    </div>
+
+    <button class="submit-btn" id="submit">Enviar respostas ✅</button>
+  </div>
+
+  <div class="popup" id="popup">
+    <img src="coin.png" alt="Moeda">
+    <p>Parabéns! Você recebeu:</p>
+    <p id="reward-amount">R$ 0,00</p>
+    <audio id="popup-sound">
+      <source src="spot-coin.mp3" type="audio/mp3">
+    </audio>
+  </div>
+
+  <script>
+    let currentSong = 1;
+    const totalSongs = 10;
+    let balance = 100.00;
+
+    const audioPlayer = document.getElementById("audio-player");
+    const songTitle = document.getElementById("song-title");
+    const submitBtn = document.getElementById("submit");
+    const popup = document.getElementById("popup");
+    const rewardAmount = document.getElementById("reward-amount");
+    const userBalance = document.getElementById("user-balance");
+    const popupSound = document.getElementById("popup-sound");
+    const buttons = document.querySelectorAll(".btn");
+    const musicCard = document.getElementById("music-card");
+
+    const musicData = Array.from({length: 10}, (_, i) => ({
+      title: `Música ${i+1}`,
+      file: `song${i+1}.mp3`,
+      image: `imagens/cantor${i+1}.jpg`
+    }));
+
+    function updateSong() {
+      const current = musicData[currentSong - 1];
+      audioPlayer.src = current.file;
+      songTitle.textContent = current.title;
+      musicCard.style.backgroundImage = `url('${current.image}')`;
+      audioPlayer.load();
+      audioPlayer.play();
+      resetButtons();
+    }
+
+    function nextSong() {
+      if (currentSong < totalSongs) {
+        currentSong++;
+        updateSong();
+      }
+    }
+
+    function prevSong() {
+      if (currentSong > 1) {
+        currentSong--;
+        updateSong();
+      }
+    }
+
+    function resetButtons() {
+      buttons.forEach(btn => btn.classList.remove("active"));
+    }
+
+    function getRandomReward() {
+      return (Math.random() * (50 - 10) + 10).toFixed(2);
+    }
+
+    function showPopup() {
+      let reward = getRandomReward();
+      rewardAmount.textContent = `R$ ${reward}`;
+      popup.style.display = "block";
+      popupSound.play();
+
+      balance += parseFloat(reward);
+      userBalance.textContent = `R$ ${balance.toFixed(2)}`;
+
+      setTimeout(() => {
+        popup.style.display = "none";
+        if (currentSong >= totalSongs) {
+          window.location.href = "saque-spot.html";
+        } else {
+          nextSong();
+        }
+      }, 4000);
+    }
+
+    submitBtn.addEventListener("click", showPopup);
+
+    buttons.forEach(btn => {
+      btn.addEventListener("click", function () {
+        this.classList.toggle("active");
+      });
+    });
+
+    window.onload = updateSong;
+  </script>
+</body>
+</html>

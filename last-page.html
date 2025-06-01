@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Spotify - Saque Pix</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #fff;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      max-width: 400px;
+      width: 90%;
+      background: #000;
+      padding: 30px 20px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.7);
+      text-align: center;
+    }
+
+    .logo {
+      color: #1DB954;
+      font-size: 26px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .saldo {
+      font-size: 20px;
+      color: #1DB954;
+      margin-bottom: 20px;
+      background: #1a1a1a;
+      padding: 12px;
+      border-radius: 10px;
+    }
+
+    .image-container {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .btn-container {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: #2a2a2a;
+      border: 2px solid transparent;
+      padding: 10px 16px;
+      border-radius: 30px;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .btn:hover,
+    .btn.selected {
+      border-color: #1DB954;
+      background-color: #1DB954;
+      color: #000;
+    }
+
+    .input-pix {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: none;
+      background-color: #1a1a1a;
+      color: white;
+      font-size: 15px;
+      text-align: center;
+    }
+
+    .saque-btn {
+      margin-top: 20px;
+      background: #1DB954;
+      color: #000;
+      border: none;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 30px;
+      width: 100%;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .saque-btn:hover {
+      background: #18a74b;
+    }
+
+    .footer {
+      margin-top: 25px;
+      font-size: 12px;
+      opacity: 0.6;
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 400px;
+      background: #000;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+      text-align: center;
+      z-index: 1000;
+    }
+
+    .popup .warning {
+      color: #ff4d4d;
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .popup .message {
+      font-size: 15px;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .popup .close-btn {
+      background: #1DB954;
+      color: black;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 30px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="logo">Spotify</div>
+    <div class="saldo">Seu saldo disponível<br><strong>R$ 430,00</strong></div>
+    <img src="saque.png" class="image-container" alt="Imagem de saque">
+    <p>Escolha o tipo da sua chave PIX:</p>
+
+    <div class="btn-container">
+      <button class="btn" onclick="selecionarTipo(this, 'CPF')">CPF / CNPJ</button>
+      <button class="btn" onclick="selecionarTipo(this, 'Telefone')">TELEFONE</button>
+      <button class="btn" onclick="selecionarTipo(this, 'Email')">E-MAIL</button>
+    </div>
+
+    <input type="text" id="chavePix" class="input-pix" placeholder="Digite sua chave PIX">
+    <input type="hidden" id="tipoChavePix" value="">
+
+    <button class="saque-btn" onclick="abrirPopup()">REALIZAR SAQUE</button>
+
+    <div class="footer">Dúvidas | Início</div>
+  </div>
+
+  <!-- Pop-up -->
+  <div id="popup" class="popup">
+    <div class="warning">⚠️</div>
+    <div class="message">
+      <strong>Desbloqueie seu saldo!</strong><br><br>
+      <span style="background: orange; padding: 6px 10px; border-radius: 5px;">Chave PIX não cadastrada...</span>
+      <p>Para liberar seu <strong>1º saque de R$430,00</strong>, ative sua conta com a chave PIX.</p>
+      <p>Foi implementada uma taxa anti-fraudes para proteger o sistema de abusos.</p>
+      <p>Fique tranquilo, <strong>você receberá o valor da taxa de volta</strong> junto com seu saque.</p>
+    </div>
+    <button class="close-btn" onclick="redirecionar()">ATIVAR CADASTRO E SACAR</button>
+  </div>
+
+  <script>
+    function selecionarTipo(button, tipo) {
+      document.querySelectorAll('.btn').forEach(btn => btn.classList.remove('selected'));
+      button.classList.add('selected');
+      document.getElementById("tipoChavePix").value = tipo;
+    }
+
+    function abrirPopup() {
+      const chave = document.getElementById("chavePix").value;
+      const tipo = document.getElementById("tipoChavePix").value;
+
+      if (!chave || !tipo) {
+        alert("Por favor, selecione o tipo da chave Pix e preencha o campo.");
+        return;
+      }
+
+      document.getElementById("popup").style.display = "block";
+    }
+
+    function redirecionar() {
+      window.location.href = "last.html";
+    }
+  </script>
+
+</body>
+</html>

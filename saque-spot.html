@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Saque Spot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to bottom, #000, #0d0d0d);
+      color: #fff;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 420px;
+      width: 100%;
+    }
+
+    .header {
+      background-color: #121212;
+      padding: 15px 20px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .header img {
+      height: 28px;
+    }
+
+    .saldo {
+      background: linear-gradient(135deg, #1DB954, #17a744);
+      color: #000;
+      padding: 8px 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      font-size: 16px;
+      box-shadow: 0 2px 8px rgba(30, 215, 96, 0.4);
+    }
+
+    .card {
+      background-color: #1a1a1a;
+      margin-top: 20px;
+      padding: 25px 20px;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .card h2 {
+      color: #1DB954;
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    .msg {
+      background: linear-gradient(45deg, #8e2de2, #4a00e0);
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(142, 45, 226, 0.3);
+    }
+
+    .limite {
+      background-color: #121212;
+      margin-top: 25px;
+      border-radius: 16px;
+      padding: 25px 20px;
+      text-align: center;
+      box-shadow: inset 0 0 8px rgba(0, 255, 100, 0.2);
+    }
+
+    .limite img {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+
+    .limite h2 {
+      font-size: 22px;
+      color: #1DB954;
+      margin-bottom: 10px;
+    }
+
+    .limite p {
+      font-size: 15px;
+      color: #ccc;
+      margin-bottom: 20px;
+    }
+
+    .botao {
+      background: linear-gradient(to right, #1DB954, #1AA34A);
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 14px 30px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 6px 20px rgba(30, 215, 96, 0.4);
+      transition: transform 0.3s ease;
+    }
+
+    .botao:hover {
+      transform: scale(1.05);
+      background: #17a744;
+    }
+
+    .limite span {
+      display: block;
+      margin-top: 15px;
+      font-size: 13px;
+      color: #888;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Cabeçalho -->
+    <div class="header">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg" alt="Spotify">
+      <div class="saldo">R$ 430,00</div>
+    </div>
+
+    <!-- Avaliação -->
+    <div class="card">
+      <h2>Avalie músicas e <span style="color: #1DB954;">ganhe por isso</span></h2>
+      <div class="msg">🎉 Parabéns! Você ganhou R$ 430,00</div>
+    </div>
+
+    <!-- Limite diário -->
+    <div class="limite">
+      <img src="gl.png" alt="Mulher segurando troféu" />
+      <h2>Limite diário atingido!</h2>
+      <p>Precisa sacar seu saldo ainda hoje?</p>
+      <a href="#" class="botao" id="saquePix">SAQUE NO PIX AGORA</a>
+      <span>Saque máximo de R$ 430,00 via PIX.</span>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("saquePix").addEventListener("click", function(event) {
+      event.preventDefault();
+      window.location.href = "last-page.html";
+    });
+  </script>
+</body>
+</html>
